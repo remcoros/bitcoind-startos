@@ -126,7 +126,7 @@ fn sidecar(config: &Mapping, addr: &str) -> Result<(), Box<dyn Error>> {
             Cow::from("Tor Quick Connect"),
             Stat {
                 value_type: "string",
-                value: format!("btcstandup://{}:{}@{}:8332", user, pass, addr),
+                value: format!("btcstandup://{}:{}@{}:48332", user, pass, addr),
                 description: Some(Cow::from("Bitcoin-Standup Tor Quick Connect URL")),
                 copyable: true,
                 qr: true,
@@ -138,7 +138,7 @@ fn sidecar(config: &Mapping, addr: &str) -> Result<(), Box<dyn Error>> {
             Cow::from("LAN Quick Connect"),
             Stat {
                 value_type: "string",
-                value: format!("btcstandup://{}:{}@{}:8332", user, pass, addr_local),
+                value: format!("btcstandup://{}:{}@{}:443", user, pass, addr_local),
                 description: Some(Cow::from("Bitcoin-Standup LAN Quick Connect URL")),
                 copyable: true,
                 qr: true,
@@ -505,7 +505,7 @@ fn inner_main(reindex: bool, reindex_chainstate: bool) -> Result<(), Box<dyn Err
         Some(std::thread::spawn(move || {
             tokio::runtime::Runtime::new()
                 .unwrap()
-                .block_on(btc_rpc_proxy::main(state, ([0, 0, 0, 0], 8332).into()))
+                .block_on(btc_rpc_proxy::main(state, ([0, 0, 0, 0], 48332).into()))
                 .unwrap();
         }))
     } else {

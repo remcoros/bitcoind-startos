@@ -4,7 +4,7 @@ set -e
 
 username=$(yq e '.rpc.username' /root/.bitcoin/start9/config.yaml)
 password=$(yq e '.rpc.password' /root/.bitcoin/start9/config.yaml)
-gbci_result=$(curl -s --user $username:$password --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockchaininfo", "params": []}' -H 'content-type: text/plain;' http://bitcoind.embassy:8332/ )
+gbci_result=$(curl -s --user $username:$password --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockchaininfo", "params": []}' -H 'content-type: text/plain;' http://bitcoind-testnet.embassy:48332/ )
 error_code=$?
 if [ $error_code -ne 0 ]; then
     echo $gbci_result >&2

@@ -30,5 +30,5 @@ if [ "$pruned" != "disabled" ]; then
   echo $action_result_pruned
 else
   touch /root/.bitcoin/requires.reindex_chainstate
-  bitcoin-cli -rpcconnect=bitcoind.embassy stop >/dev/null 2>/dev/null && echo $action_result_running || echo $action_result_stopped
+  bitcoin-cli -rpcconnect=bitcoind-testnet.embassy:48332 stop >/dev/null 2>/dev/null && echo $action_result_running || echo $action_result_stopped
 fi

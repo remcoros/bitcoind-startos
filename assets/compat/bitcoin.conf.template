@@ -2,6 +2,9 @@
 ## bitcoin.conf configuration file. Lines beginning with # are comments.
 ##
 
+chain=testnet4
+
+[testnet4]
 ## RPC
 {{#IF rpc.enable
 {{#IF advanced.pruning.mode = "automatic"
@@ -9,7 +12,7 @@ rpcbind=127.0.0.1:18332
 rpcallowip=127.0.0.1/32
 }}
 {{#IF advanced.pruning.mode != "automatic"
-rpcbind=0.0.0.0:8332
+rpcbind=0.0.0.0:48332
 rpcallowip=0.0.0.0/0
 }}
 }}

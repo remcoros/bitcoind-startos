@@ -34,8 +34,8 @@ Install the following system dependencies to build this project by following the
 Clone the project locally. Note the submodule link to the original project(s). 
 
 ```
-git clone git@github.com:Start9Labs/bitcoind-startos.git
-cd bitcoind-startos
+git clone git@github.com:remcoros/bitcoind-testnet4-startos.git
+cd bitcoind-testnet4-startos
 git submodule update --init
 ```
 
@@ -67,7 +67,7 @@ Run the following commands to determine successful install:
 ```
 start-cli auth login
 # Enter your StartOS password
-start-cli --host https://server-name.local package install bitcoind.s9pk
+start-cli --host https://server-name.local package install bitcoind-testnet.s9pk
 ```
 
 If you already have your `start-cli` config file setup with a default `host`, you can install simply by running:
@@ -76,7 +76,7 @@ If you already have your `start-cli` config file setup with a default `host`, yo
 make install
 ```
 
-> **Tip:** You can also install the `bitcoind.s9pk` using **Sideload Service** under the **System > Manage** section.
+> **Tip:** You can also install the `bitcoind-testnet.s9pk` using **Sideload Service** under the **System > Manage** section.
 
 ## Integrations
 

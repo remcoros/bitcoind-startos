@@ -4,7 +4,7 @@
 FROM lncm/berkeleydb as berkeleydb
 
 # Build stage for Bitcoin Core
-FROM alpine:3.18 as bitcoin-core
+FROM alpine:3.20 as bitcoin-core
 
 COPY --from=berkeleydb /opt /opt
 
@@ -42,19 +42,22 @@ RUN ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/incl
   --disable-tests \
   --disable-bench \
   --disable-ccache \
+  --disable-fuzz \
+  --disable-fuzz-binary \
   --with-gui=no \
   --with-utils \
   --with-libs \
   --with-sqlite=yes \
   --with-daemon
+
 RUN make -j$(nproc)
 RUN make install
 RUN strip ${BITCOIN_PREFIX}/bin/*
-RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.a
-RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.so.0.0.0
+#RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.a
+#RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.so.0.0.0
 
 # Build stage for compiled artifacts
-FROM alpine:3.18
+FROM alpine:3.20
 
 LABEL maintainer.0="João Fonseca (@joaopaulofonseca)" \
   maintainer.1="Pedro Branco (@pedrobranco)" \
@@ -90,6 +93,6 @@ COPY ./manager/target/${ARCH}-unknown-linux-musl/release/bitcoind-manager \
 RUN chmod a+x /usr/local/bin/bitcoind-manager \
     /usr/local/bin/*.sh
 
-EXPOSE 8332 8333
+EXPOSE 48332 8333
 
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]

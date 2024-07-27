@@ -1,14 +1,10 @@
-id: bitcoind
-title: "Bitcoin Core"
+id: bitcoind-testnet
+title: "Bitcoin Core (testnet4)"
 version: 27.1.0
-eos-version: 0.3.4.4
 release-notes: |
-  * Update Bitcoin to [v27.1](https://github.com/bitcoin/bitcoin/releases/tag/v27.1)
-  * Add 'Reindex Chainstate' Action
-  * Improve config descriptions and instructions
-  * Notice! If Bitcoin gets stuck in "Stopping" status after the update, the solution is to restart your server. System -> Restart.
+  * Initial release of Bitcoin Core (testnet4) based on Bitcoin Core 27.1.0
 license: MIT
-wrapper-repo: https://github.com/Start9Labs/bitcoind-startos
+wrapper-repo: https://github.com/remcoros/bitcoind-testnet4-startos
 upstream-repo: https://github.com/bitcoin/bitcoin
 support-site: https://github.com/bitcoin/bitcoin/issues
 marketing-site: https://bitcoincore.org/
@@ -74,11 +70,11 @@ interfaces:
     description: Listens for JSON-RPC commands
     tor-config:
       port-mapping:
-        8332: "8332"
+        48332: "48332"
     lan-config:
       443:
         ssl: true
-        internal: 8332
+        internal: 48332
     ui: false
     protocols:
       - tcp
