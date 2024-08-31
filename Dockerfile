@@ -14,6 +14,7 @@ RUN apk --no-cache add \
         automake \
         boost-dev \
         build-base \
+        ccache \
         clang \
         chrpath \
         file \
@@ -35,18 +36,18 @@ RUN ./autogen.sh
 RUN ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/include/ \
   # If building on Mac make sure to increase Docker VM memory, or uncomment this line. See https://github.com/bitcoin/bitcoin/issues/6658 for more info.
   # CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" \
-  CXXFLAGS="-O1" \
+  CXXFLAGS="-g0 -O2" \
   CXX=clang++ CC=clang \
   --prefix=${BITCOIN_PREFIX} \
   --disable-man \
   --disable-tests \
   --disable-bench \
-  --disable-ccache \
+  #  --disable-ccache \
   --disable-fuzz \
   --disable-fuzz-binary \
   --with-gui=no \
   --with-utils \
-  --with-libs \
+  #  --with-libs \
   --with-sqlite=yes \
   --with-daemon
 
@@ -65,15 +66,16 @@ LABEL maintainer.0="João Fonseca (@joaopaulofonseca)" \
   maintainer.3="Aiden McClelland (@dr-bonez)"
 
 RUN sed -i 's/http\:\/\/dl-cdn.alpinelinux.org/https\:\/\/alpine.global.ssl.fastly.net/g' /etc/apk/repositories
-RUN apk --no-cache add \
+RUN \
+  apk --no-cache add \
   bash \
   curl \
   libevent \
   libzmq \
   sqlite-dev \
   tini \
-  yq \
-RUN rm -rf /var/cache/apk/*
+  yq && \
+  rm -rf /var/cache/apk/*
 
 ARG ARCH
 
@@ -82,16 +84,14 @@ ENV BITCOIN_PREFIX=/opt/bitcoin
 ENV PATH=${BITCOIN_PREFIX}/bin:$PATH
 
 COPY --from=bitcoin-core /opt /opt
-COPY ./manager/target/${ARCH}-unknown-linux-musl/release/bitcoind-manager \
-     ./docker_entrypoint.sh \
-     ./actions/reindex.sh \
-     ./actions/reindex_chainstate.sh \
-     ./check-rpc.sh \
-     ./check-synced.sh \
-     /usr/local/bin/
-
-RUN chmod a+x /usr/local/bin/bitcoind-manager \
-    /usr/local/bin/*.sh
+COPY --chmod=755 \
+  ./manager/target/${ARCH}-unknown-linux-musl/release/bitcoind-manager \
+  ./docker_entrypoint.sh \
+  ./actions/reindex.sh \
+  ./actions/reindex_chainstate.sh \
+  ./check-rpc.sh \
+  ./check-synced.sh \
+  /usr/local/bin/
 
 EXPOSE 48332 8333
 
