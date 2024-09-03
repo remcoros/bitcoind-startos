@@ -6,7 +6,7 @@ export const action = {
     _input?: T.Config
   ): Promise<T.ResultType<T.ActionResult>> {
     const txinfoLocation = {
-      path: "indexes/txindex",
+      path: "testnet4/indexes/txindex",
       volumeId: "main",
     };
     if ((await util.exists(effect, txinfoLocation)) === false) {
@@ -34,7 +34,7 @@ export const action = {
     _input?: T.Config
   ): Promise<T.ResultType<T.ActionResult>> {
     const peersLocation = {
-      path: "peers.dat",
+      path: "testnet4/peers.dat",
       volumeId: "main",
     };
     if ((await util.exists(effect, peersLocation)) === false) {
