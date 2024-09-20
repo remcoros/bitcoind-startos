@@ -2,7 +2,7 @@ id: bitcoind-testnet
 title: "Bitcoin Core (testnet4)"
 version: 28.0.0
 release-notes: |
-  * Initial release of Bitcoin Core (testnet4) based on Bitcoin Core 28.0-rc1
+  * Initial release of Bitcoin Core (testnet4) based on Bitcoin Core 28.0-rc2
 license: MIT
 wrapper-repo: https://github.com/remcoros/bitcoind-testnet4-startos
 upstream-repo: https://github.com/bitcoin/bitcoin

@@ -14,7 +14,6 @@ RUN apk --no-cache add \
         automake \
         boost-dev \
         build-base \
-        ccache \
         clang \
         chrpath \
         file \
@@ -42,7 +41,7 @@ RUN ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/incl
   --disable-man \
   --disable-tests \
   --disable-bench \
-  #  --disable-ccache \
+  --disable-ccache \
   --disable-fuzz \
   --disable-fuzz-binary \
   --with-gui=no \
