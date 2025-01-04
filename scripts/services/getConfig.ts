@@ -2,7 +2,7 @@ import { ConfigSpec } from "https://deno.land/x/embassyd_sdk@v0.3.4.3.0-alpha1/t
 import { compat, types as T } from "../dependencies.ts";
 
 export const getConfig: T.ExpectedExports.getConfig = async (effects) => {
-  const allowUnpruned = (await effects.diskUsage()).total > 800_000_000_000;
+  const allowUnpruned = (await effects.diskUsage()).total > 15_000_000_000;
   return compat.getConfig({
     "peer-tor-address": {
       name: "Peer Tor Address",
