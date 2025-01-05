@@ -1,10 +1,12 @@
 # From https://github.com/ruimarinho/docker-bitcoin-core
 
 # Build stage for BerkeleyDB
-FROM lncm/berkeleydb as berkeleydb
+ARG PLATFORM
+
+FROM lncm/berkeleydb:db-4.8.30.NC-${PLATFORM} AS berkeleydb
 
 # Build stage for Bitcoin Core
-FROM alpine:3.20 as bitcoin-core
+FROM alpine:3.21 AS bitcoin-core
 
 COPY --from=berkeleydb /opt /opt
 
@@ -35,7 +37,7 @@ RUN ./autogen.sh
 RUN ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/include/ \
   # If building on Mac make sure to increase Docker VM memory, or uncomment this line. See https://github.com/bitcoin/bitcoin/issues/6658 for more info.
   # CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768" \
-  CXXFLAGS="-g0 -O3" \
+  CXXFLAGS="-g0 -O2" \
   CXX=clang++ CC=clang \
   --prefix=${BITCOIN_PREFIX} \
   --disable-man \
@@ -53,11 +55,9 @@ RUN ./configure LDFLAGS=-L`ls -d /opt/db*`/lib/ CPPFLAGS=-I`ls -d /opt/db*`/incl
 RUN make -j$(nproc)
 RUN make install
 RUN strip ${BITCOIN_PREFIX}/bin/*
-#RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.a
-#RUN strip ${BITCOIN_PREFIX}/lib/libbitcoinconsensus.so.0.0.0
 
 # Build stage for compiled artifacts
-FROM alpine:3.20
+FROM alpine:3.21
 
 LABEL maintainer.0="João Fonseca (@joaopaulofonseca)" \
   maintainer.1="Pedro Branco (@pedrobranco)" \
